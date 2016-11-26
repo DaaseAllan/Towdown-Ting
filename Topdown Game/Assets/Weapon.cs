@@ -5,21 +5,22 @@ public class Weapon : MonoBehaviour {
 
 	public float Firerate = 10;
 	public float Damage = 10;
-	public LayerMask NotToHit;
+	public float Bulletrange = 100;
+	public LayerMask WhatToHit;
 
 	float TimeToFire = 0;
 	Transform firepoint;
 
 
 	void Awake () {
-		firepoint = transform.FindChild("FirePoint");
+		firepoint = transform.FindChild ("FirePoint");
 		if (firepoint == null) {
 			Debug.LogError ("FirePoint not found");
 		}
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
 		if (Firerate == 0) 
 		{
@@ -39,6 +40,17 @@ public class Weapon : MonoBehaviour {
 		}
 }
 	void Shoot() {
+		Debug.Log ("Der er skudt");
 		Vector2 mousePosition = new Vector2 (Camera.main.ScreenToWorldPoint (Input.mousePosition).x, Camera.main.ScreenToWorldPoint (Input.mousePosition).y);
+		Vector2 firePointPosition = new Vector2 (firepoint.position.x, firepoint.position.y);
+		RaycastHit2D hit = Physics2D.Raycast (firePointPosition, mousePosition - firePointPosition, Bulletrange, WhatToHit);
+		Debug.DrawLine (firePointPosition, (mousePosition-firePointPosition)*100, Color.blue);
+		if (hit.collider != null) 
+		{
+			Debug.Log ("sollid ramt");
+			Debug.DrawLine (firePointPosition, hit.point, Color.red);
+			Debug.Log ("Ramte " + hit.collider.name + " og gjorde " + Damage + " skade");
+		}
+	
 	}
 }
