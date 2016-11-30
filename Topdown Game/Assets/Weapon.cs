@@ -3,10 +3,15 @@ using System.Collections;
 
 public class Weapon : MonoBehaviour {
 
-	public float Firerate = 10;
+	public float Firerate = 0;
 	public float Damage = 10;
 	public float Bulletrange = 100;
+	public float bulletspeed = 10;
 	public LayerMask WhatToHit;
+	public GameObject Bullet;
+	public float Del1 = 0;
+	public float Del2 = 0;
+	public float Del3 = 0;
 
 	float TimeToFire = 0;
 	Transform firepoint;
@@ -18,15 +23,22 @@ public class Weapon : MonoBehaviour {
 			Debug.LogError ("FirePoint not found");
 		}
 	}
-	
-	// Update is called once per frame
+
+	void Start()
+	{
+		Del1 = Random.Range (1, 3);
+		Del2 = Random.Range (1, 3);
+		Del3 = Random.Range (1, 3);
+	}
+
+
 	void Update ()
 	{
 		if (Firerate == 0) 
 		{
 			if (Input.GetButtonDown("Fire1"))
 			{
-				Shoot();
+				ShootBullet();
 
 		}
 	}
@@ -35,11 +47,11 @@ public class Weapon : MonoBehaviour {
 			if (Input.GetButton("Fire1") && Time.time > TimeToFire) 
 			{
 				TimeToFire = Time.time + 1/Firerate;
-				Shoot();
+				ShootRay ();
 			}
 		}
 }
-	void Shoot() {
+	void ShootRay() {
 		Debug.Log ("Der er skudt");
 		Vector2 mousePosition = new Vector2 (Camera.main.ScreenToWorldPoint (Input.mousePosition).x, Camera.main.ScreenToWorldPoint (Input.mousePosition).y);
 		Vector2 firePointPosition = new Vector2 (firepoint.position.x, firepoint.position.y);
@@ -52,5 +64,13 @@ public class Weapon : MonoBehaviour {
 			Debug.Log ("Ramte " + hit.collider.name + " og gjorde " + Damage + " skade");
 		}
 	
+
+	}
+	void ShootBullet(){
+		GameObject BulletPrefab = Instantiate (Bullet) as GameObject;
+		BulletPrefab.transform.position = firepoint.transform.position;
+		BulletPrefab.transform.up = transform.right;
+	//	BulletPrefab.transform.rotation = Quaternion.Euler (transform.rotation.x,transform.rotation.y,transform.rotation.z);
+		BulletPrefab.GetComponent<Rigidbody2D> ().AddForce (BulletPrefab.transform.up*bulletspeed);
 	}
 }
