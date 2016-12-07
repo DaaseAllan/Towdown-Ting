@@ -69,7 +69,7 @@ public class Weapon : MonoBehaviour {
 	void ShootBullet(){
 		GameObject BulletPrefab = Instantiate (Bullet) as GameObject;
 		BulletPrefab.transform.position = firepoint.transform.position;
-		BulletPrefab.transform.up = transform.right;
+		BulletPrefab.transform.up = transform.up;
 	//	BulletPrefab.transform.rotation = Quaternion.Euler (transform.rotation.x,transform.rotation.y,transform.rotation.z);
 		BulletPrefab.GetComponent<Rigidbody2D> ().AddForce (BulletPrefab.transform.up*bulletspeed);
 	}
