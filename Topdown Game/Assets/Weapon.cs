@@ -12,23 +12,35 @@ public class Weapon : MonoBehaviour {
 	public float Del1 = 0;
 	public float Del2 = 0;
 	public float Del3 = 0;
-
+	public GameObject Middel;
 	float TimeToFire = 0;
 	Transform firepoint;
+	public Sprite midte1sprite;
+	public float bulletspread = 0;
 
 
 	void Awake () {
 		firepoint = transform.FindChild ("FirePoint");
 		if (firepoint == null) {
 			Debug.LogError ("FirePoint not found");
+
+
+
 		}
 	}
 
 	void Start()
 	{
 		Del1 = Random.Range (1, 3);
-		Del2 = Random.Range (1, 3);
+		Del2 = 1;
 		Del3 = Random.Range (1, 3);
+		Debug.Log ("del" + Del1);
+
+		if (Del2 == 1) 
+		{
+			Middel.GetComponent<SpriteRenderer> ().sprite = midte1sprite;
+		
+		}
 	}
 
 
@@ -36,8 +48,9 @@ public class Weapon : MonoBehaviour {
 	{
 		if (Firerate == 0) 
 		{
-			if (Input.GetButtonDown("Fire1"))
+			if (Input.GetButtonDown("Fire1")&& Time.time > TimeToFire)
 			{
+				TimeToFire = Time.time + 0.3f;
 				ShootBullet();
 
 		}
@@ -47,7 +60,7 @@ public class Weapon : MonoBehaviour {
 			if (Input.GetButton("Fire1") && Time.time > TimeToFire) 
 			{
 				TimeToFire = Time.time + 1/Firerate;
-				ShootRay ();
+				ShootBullet ();
 			}
 		}
 }
@@ -70,7 +83,7 @@ public class Weapon : MonoBehaviour {
 		GameObject BulletPrefab = Instantiate (Bullet) as GameObject;
 		BulletPrefab.transform.position = firepoint.transform.position;
 		BulletPrefab.transform.up = transform.up;
-	//	BulletPrefab.transform.rotation = Quaternion.Euler (transform.rotation.x,transform.rotation.y,transform.rotation.z);
+	//	BulletPrefab.transform.rotation = Quaternion.Euler(new Vector3 (90,90,0));
 		BulletPrefab.GetComponent<Rigidbody2D> ().AddForce (BulletPrefab.transform.up*bulletspeed);
 	}
 }
