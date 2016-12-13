@@ -17,7 +17,10 @@ public class Weapon : MonoBehaviour {
 	Transform firepoint;
 	public Sprite midte1sprite;
 	public float bulletspread = 0;
+	public float amountofbullets;
 
+	private float spreadamount;
+	private float bulletsshot;
 
 	void Awake () {
 		firepoint = transform.FindChild ("FirePoint");
@@ -51,9 +54,16 @@ public class Weapon : MonoBehaviour {
 			if (Input.GetButtonDown("Fire1")&& Time.time > TimeToFire)
 			{
 				TimeToFire = Time.time + 0.3f;
-				ShootBullet();
 
-		}
+				if (amountofbullets > bulletsshot) {
+					ShootBullet ();
+					bulletsshot += 1;
+					Debug.Log (bulletsshot);
+				} else 
+				{
+					bulletsshot = 0;
+				}
+			}
 	}
 		else 
 		{
@@ -80,10 +90,14 @@ public class Weapon : MonoBehaviour {
 
 	}
 	void ShootBullet(){
-		GameObject BulletPrefab = Instantiate (Bullet) as GameObject;
-		BulletPrefab.transform.position = firepoint.transform.position;
-		BulletPrefab.transform.up = transform.up;
-	//	BulletPrefab.transform.rotation = Quaternion.Euler(new Vector3 (90,90,0));
-		BulletPrefab.GetComponent<Rigidbody2D> ().AddForce (BulletPrefab.transform.up*bulletspeed);
+
+			GameObject BulletPrefab = Instantiate (Bullet) as GameObject;
+			BulletPrefab.transform.position = firepoint.transform.position;
+			BulletPrefab.transform.up = transform.up;
+			//	BulletPrefab.transform.rotation = Quaternion.Euler(new Vector3 (90,90,0));
+			BulletPrefab.GetComponent<Rigidbody2D> ().AddForce (BulletPrefab.transform.up * bulletspeed);
+			spreadamount = Random.Range (-bulletspread, bulletspread);
+			BulletPrefab.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (spreadamount, spreadamount));
+	
 	}
 }
