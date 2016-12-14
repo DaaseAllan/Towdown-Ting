@@ -4,6 +4,7 @@ using System.Collections;
 public class Weapon : MonoBehaviour {
 
 	public float Firerate = 0;
+	public float SemiFirerate = 3;
 	public float Damage = 10;
 	public float Bulletrange = 100;
 	public float bulletspeed = 10;
@@ -16,8 +17,10 @@ public class Weapon : MonoBehaviour {
 	float TimeToFire = 0;
 	Transform firepoint;
 	public Sprite midte1sprite;
+	public Sprite midte2sprite;
 	public float bulletspread = 0;
-	public float amountofbullets;
+	public int amountofbullets = 1;
+	public Animator midte2anim;
 
 	private float spreadamount;
 	private float bulletsshot;
@@ -35,33 +38,46 @@ public class Weapon : MonoBehaviour {
 	void Start()
 	{
 		Del1 = Random.Range (1, 3);
-		Del2 = 1;
+		Del2 = Random.Range(1, 3);
 		Del3 = Random.Range (1, 3);
-		Debug.Log ("del" + Del1);
+		Debug.Log ("del" + Del2);
 
 		if (Del2 == 1) 
 		{
 			Middel.GetComponent<SpriteRenderer> ().sprite = midte1sprite;
+			Firerate = 0;
+			SemiFirerate = 3;
+
 		
+		}
+		if (Del2 == 2) 
+		{
+			Middel.GetComponent<SpriteRenderer> ().sprite = midte2sprite;
+			Firerate = 0;
+
+
 		}
 	}
 
 
 	void Update ()
 	{
+
 		if (Firerate == 0) 
 		{
 			if (Input.GetButtonDown("Fire1")&& Time.time > TimeToFire)
 			{
-				TimeToFire = Time.time + 0.3f;
+				TimeToFire = Time.time + 1/SemiFirerate;
 
-				if (amountofbullets > bulletsshot) {
-					ShootBullet ();
-					bulletsshot += 1;
+				ShootBullet (amountofbullets);
 					Debug.Log (bulletsshot);
-				} else 
+			
+				if (Del2 == 2) 
 				{
-					bulletsshot = 0;
+
+					midte2anim.Play ("Midte2");
+					midte2anim.speed = 1;
+
 				}
 			}
 	}
@@ -70,7 +86,7 @@ public class Weapon : MonoBehaviour {
 			if (Input.GetButton("Fire1") && Time.time > TimeToFire) 
 			{
 				TimeToFire = Time.time + 1/Firerate;
-				ShootBullet ();
+				ShootBullet (amountofbullets);
 			}
 		}
 }
@@ -86,18 +102,18 @@ public class Weapon : MonoBehaviour {
 			Debug.DrawLine (firePointPosition, hit.point, Color.red);
 			Debug.Log ("Ramte " + hit.collider.name + " og gjorde " + Damage + " skade");
 		}
-	
 
 	}
-	void ShootBullet(){
-
+	void ShootBullet(int BulletCount){
+		for (int i = BulletCount; i > 0; i -= 1) {
 			GameObject BulletPrefab = Instantiate (Bullet) as GameObject;
 			BulletPrefab.transform.position = firepoint.transform.position;
 			BulletPrefab.transform.up = transform.up;
 			//	BulletPrefab.transform.rotation = Quaternion.Euler(new Vector3 (90,90,0));
 			BulletPrefab.GetComponent<Rigidbody2D> ().AddForce (BulletPrefab.transform.up * bulletspeed);
 			spreadamount = Random.Range (-bulletspread, bulletspread);
-			BulletPrefab.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (spreadamount, spreadamount));
+			BulletPrefab.GetComponent<Rigidbody2D> ().AddRelativeForce (new Vector2 (spreadamount, BulletPrefab.GetComponent<Rigidbody2D>().velocity.y));
+		}
 	
 	}
 }
