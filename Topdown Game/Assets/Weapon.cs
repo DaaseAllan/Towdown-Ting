@@ -47,13 +47,17 @@ public class Weapon : MonoBehaviour {
 			midte2anim.Play ("midte1");		
 			Firerate = 0;
 			SemiFirerate = 3;
+			bulletspread = 3;
+			bulletspeed = 4000;
 		
 		}
 		if (Del2 == 2) 
 		{
 			Middel.GetComponent<SpriteRenderer> ().sprite = midte2sprite;
 			Firerate = 0;
-
+			SemiFirerate = 1;
+			amountofbullets += 5;
+			bulletspread = 500;
 
 		}
 	}
@@ -61,7 +65,6 @@ public class Weapon : MonoBehaviour {
 
 	void Update ()
 	{
-		print ("look atr my dab");
 		if (Firerate == 0) 
 		{
 			if (Input.GetButtonDown("Fire1")&& Time.time > TimeToFire)
