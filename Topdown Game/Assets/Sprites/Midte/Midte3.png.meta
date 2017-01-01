@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: da3bb8a49a26fab4e98d21eb8b7987d7
-timeCreated: 1482347522
+guid: 321e0e5409f69b54f8c65dc55073bc82
+timeCreated: 1483191192
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Midte 3_0
-    21300002: Midte 3_1
+    21300000: Midte3_0
+    21300002: Midte3_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -31,7 +31,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
+    filterMode: 0
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -48,14 +48,11 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    serializedVersion: 2
     sprites:
-    - serializedVersion: 2
-      name: Midte 3_0
+    - name: Midte3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -66,9 +63,7 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Midte 3_1
+    - name: Midte3_1
       rect:
         serializedVersion: 2
         x: 0
@@ -79,7 +74,6 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

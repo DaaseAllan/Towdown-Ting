@@ -38,13 +38,13 @@ public class Weapon : MonoBehaviour {
 	void Start()
 	{
 		Del1 = Random.Range (1, 3);
-		Del2 = Random.Range(1, 3);
+		Del2 = 3;
 		Del3 = Random.Range (1, 3);
 		Debug.Log ("del" + Del2);
 
 		if (Del2 == 1) 
 		{
-			midte2anim.Play ("midte1");		
+			midte2anim.Play ("midte1idle");		
 			Firerate = 0;
 			SemiFirerate = 3;
 			bulletspread = 3;
@@ -60,11 +60,19 @@ public class Weapon : MonoBehaviour {
 			bulletspread = 500;
 
 		}
+		if (Del2 == 3) 
+		{
+			midte2anim.Play ("Midte3Idle");
+			Firerate = 10;
+
+
+		}
 	}
 
 
 	void Update ()
 	{
+
 		if (Firerate == 0) 
 		{
 			if (Input.GetButtonDown("Fire1")&& Time.time > TimeToFire)
@@ -84,7 +92,8 @@ public class Weapon : MonoBehaviour {
 				{
 					midte2anim.Play ("midte1");
 				}
-			}
+			} 
+
 	}
 		else 
 		{
@@ -92,7 +101,10 @@ public class Weapon : MonoBehaviour {
 			{
 				TimeToFire = Time.time + 1/Firerate;
 				ShootBullet (amountofbullets);
+
+
 			}
+
 		}
 }
 	void ShootRay() {
